@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oliver Polaschek | Roblox Gameplay Engineer</title>
+<meta name="description" content="Oliver Polaschek, Roblox gameplay engineer based in New Zealand. Character animation, gameplay systems, shipped games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0b0a;
+  --bg-soft: #161412;
+  --text: #e8e3d8;
+  --muted: #6b665e;
+  --accent: #c8462e;
+  --line: rgba(232, 227, 216, 0.1);
+  --line-bright: rgba(232, 227, 216, 0.25);
+  --display: 'Fraunces', serif;
+  --body: 'Instrument Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+main { position: relative; z-index: 2; }
+
+/* Header */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  z-index: 100;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(12, 11, 10, 0.55);
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.logo span { color: var(--accent); }
+
+nav {
+  display: flex;
+  gap: 36px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+
+nav a::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.3s;
+}
+
+nav a:hover { color: var(--text); }
+nav a:hover::before { transform: translateY(-50%) scale(1); }
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  padding: 200px 48px 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  max-width: 1600px;
+}
+
+.hero-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.hero-meta::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(56px, 11vw, 168px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 30;
+  margin-bottom: 40px;
+  max-width: 1500px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 300;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+  color: var(--accent);
+}
+
+.hero-tagline {
+  font-family: var(--display);
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--muted);
+  max-width: 720px;
+  line-height: 1.45;
+  font-variation-settings: 'opsz' 30;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.scroll-indicator::after {
+  content: '';
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  display: block;
+  animation: scrollHint 2s ease-in-out infinite;
+}
+
+@keyframes scrollHint {
+  0%, 100% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  50% { transform: scaleY(0.3); transform-origin: top; opacity: 0.4; }
+}
+
+/* Sections */
+section.s {
+  padding: 140px 48px;
+  position: relative;
+  border-top: 1px solid var(--line);
+  max-width: 1600px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 56px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 16px var(--accent);
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(40px, 5.5vw, 80px);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-variation-settings: 'opsz' 144;
+  margin-bottom: 80px;
+  max-width: 1100px;
+}
+
+.section-title em {
+  font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 80;
+  color: var(--accent);
+}
+
+/* Featured project */
+.featured {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+
+.featured.reverse { grid-template-columns: 1fr 1.1fr; }
+.featured.reverse .featured-media { order: 2; }
+.featured.reverse .featured-content { order: 1; }
+
+.featured-media {
+  aspect-ratio: 16 / 10;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s;
+}
+
+.featured-media:hover { border-color: var(--line-bright); }
+
+.featured-media .placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(200, 70, 46, 0.08), transparent 50%),
+    linear-gradient(135deg, #1a1816 0%, #0f0e0c 100%);
+}
+
+.featured-media .placeholder::before {
+  content: '';
+  position: absolute;
+  width: calc(100% - 32px);
+  height: calc(100% - 32px);
+  border: 1px dashed var(--line);
+  pointer-events: none;
+}
+
+.play-icon {
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--line-bright);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.play-icon::after {
+  content: '';
+  width: 0; height: 0;
+  border-left: 10px solid var(--text);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  margin-left: 4px;
+}
+
+.featured-content {
+  padding-top: 8px;
+}
+
+.featured-content h3 {
+  font-family: var(--display);
+  font-size: clamp(28px, 2.6vw, 38px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  font-variation-settings: 'opsz' 144;
+  line-height: 1.15;
+}
+
+.featured-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.featured-meta span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.status-dot.live {
+  background: #6b9b5c;
+  box-shadow: 0 0 12px #6b9b5c;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.featured-content p {
+  color: var(--text);
+  margin-bottom: 16px;
+  max-width: 560px;
+  opacity: 0.85;
+  line-height: 1.65;
+}
+
+.systems-list {
+  list-style: none;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.systems-list li {
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 10px 0;
+  color: var(--muted);
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+}
+
+.systems-list li::before {
+  content: '→';
+  color: var(--accent);
+}
+
+/* Systems showcase grid */
+.systems-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.system-card {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.012);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.system-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.6s ease;
+}
+
+.system-card:hover {
+  border-color: var(--line-bright);
+  background: rgba(255,255,255,0.02);
+}
+
+.system-card:hover::after { width: 100%; }
+
+.system-card-media {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #1a1816 0%, #0f0e0c 100%);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.system-card-content {
+  padding: 32px;
+}
+
+.system-card-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.system-card h4 {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  margin-bottom: 14px;
+  font-variation-settings: 'opsz' 144;
+  line-height: 1.2;
+}
+
+.system-card p {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.system-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.system-card-tags span {
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+/* Code samples */
+.code-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.code-item {
+  background: var(--bg);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background 0.3s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.code-item:hover { background: var(--bg-soft); }
+
+.code-item-name {
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--text);
+}
+
+.code-item-name span { color: var(--accent); }
+
+.code-item-desc {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.code-item-meta {
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Contact */
+.contact {
+  padding: 180px 48px;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+
+.contact .section-label {
+  justify-content: center;
+}
+
+.contact h2 {
+  font-family: var(--display);
+  font-size: clamp(48px, 9vw, 140px);
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  font-variation-settings: 'opsz' 144;
+  margin-bottom: 64px;
+}
+
+.contact h2 em {
+  font-style: italic;
+  color: var(--accent);
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 56px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+}
+
+.contact-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 6px;
+  transition: color 0.3s;
+}
+
+.contact-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.contact-links a:hover { color: var(--accent); }
+.contact-links a:hover::after { transform: scaleX(1); }
+
+footer {
+  padding: 40px 48px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Animations */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-meta { animation: rise 1s ease-out 0.2s both; }
+.hero h1 { animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+.hero-tagline { animation: rise 1s ease-out 0.8s both; }
+.scroll-indicator { animation: rise 1s ease-out 1.1s both; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  header { padding: 16px 24px; }
+  nav { display: none; }
+  .hero { padding: 120px 24px 80px; }
+  section.s, .contact { padding: 80px 24px; }
+  .featured, .featured.reverse { grid-template-columns: 1fr; gap: 40px; }
+  .featured.reverse .featured-media { order: 1; }
+  .featured.reverse .featured-content { order: 2; }
+  .systems-grid, .code-list { grid-template-columns: 1fr; }
+  .scroll-indicator { left: 24px; bottom: 32px; }
+  footer { flex-direction: column; gap: 12px; padding: 32px 24px; }
+  .contact-links { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">POLASCHEK<span> / </span>2026</div>
+  <nav>
+    <a href="#building">Building</a>
+    <a href="#shipped">Shipped</a>
+    <a href="#systems">Systems</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-meta">
+      <span>Roblox Gameplay Engineer</span>
+      <span>·</span>
+      <span>New Zealand</span>
+      <span>·</span>
+      <span>Open to work</span>
+    </div>
+    <h1>I build gameplay<br>systems for <em>Roblox</em><br>games.</h1>
+    <p class="hero-tagline">
+      Mostly weapons, character animation, and the gameplay systems behind everything.
+    </p>
+    <div class="scroll-indicator">Scroll</div>
+  </section>
+
+  <section class="s" id="building">
+    <div class="section-label">Currently Building</div>
+    <h2 class="section-title">A driving RP.</h2>
+
+    <div class="featured">
+      <div class="featured-media">
+        <iframe src="https://www.youtube.com/embed/4BS2YKmC8jQ"
+                title="Weapon system demo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+      </div>
+      <div class="featured-content">
+        <div class="featured-meta">
+          <span><span class="status-dot"></span> On contract</span>
+          <span>100M+ Visits</span>
+        </div>
+        <h3>Driving RP. Name pending disclosure.</h3>
+        <p>I'm working as a gameplay engineer on a driving RP that's done 100M+ visits. Can't say the name in public yet but happy to talk about it.</p>
+        <p>Built the weapon system from scratch. It works in first and third person off the same rig instead of needing a separate viewmodel. I went with IKControl over regular animations because the game supports a bunch of different character styles, and animations don't apply the same way to all of them.</p>
+        <p>There's also a drive-by mechanic. Players can sit out the window of a moving car and shoot. Same IK setup drives the aim.</p>
+        <ul class="systems-list">
+          <li>Weapon system that works in 1P and 3P off the same rig</li>
+          <li>Procedural IK aiming that handles different character styles</li>
+          <li>Drive-by mechanic for moving cars</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="s" id="shipped">
+    <div class="section-label">Shipped</div>
+    <h2 class="section-title">Throw Food at Brainrots.</h2>
+
+    <div class="featured reverse">
+      <div class="featured-content">
+        <div class="featured-meta">
+          <span><span class="status-dot live"></span> Live on Roblox</span>
+          <span>v2 In Progress</span>
+        </div>
+        <h3>Simulator-tycoon hybrid.</h3>
+        <p>You level up platters to get RNG food, then throw the food at a brainrot to level it up. Once you've got auto droppers and cannons going, the late game basically runs itself.</p>
+        <p>First join looks great but the retention numbers showed the progression wasn't holding people. We're rebuilding it now to fix that.</p>
+        <ul class="systems-list">
+          <li>Worked with a small team. I handled gameplay and systems</li>
+          <li>Simulator and tycoon loops layered together</li>
+          <li>Currently rebuilding for v2</li>
+        </ul>
+      </div>
+      <div class="featured-media">
+        <iframe src="https://www.youtube.com/embed/wZrRd0mCls0"
+                title="Throw Food at Brainrots trailer"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="s" id="systems">
+    <div class="section-label">Systems Showcase</div>
+    <h2 class="section-title">Other systems<br>I've <em>built</em>.</h2>
+
+    <div class="systems-grid">
+      <div class="system-card">
+        <div class="system-card-media">Clip · 10s</div>
+        <div class="system-card-content">
+          <div class="system-card-num">01 / Animation</div>
+          <h4>R6 waist rotation</h4>
+          <p>Lets the upper body aim independently of where the legs are facing. Works on top of running animations without breaking them.</p>
+          <div class="system-card-tags">
+            <span>CFrame</span><span>R6</span><span>Animation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="system-card">
+        <div class="system-card-media">Clip · 10s</div>
+        <div class="system-card-content">
+          <div class="system-card-num">02 / Physics</div>
+          <h4>Character controller</h4>
+          <p>Built on ControllerManager. I handled the edge cases the default doesn't deal with properly: corners, slopes, moving platforms.</p>
+          <div class="system-card-tags">
+            <span>ControllerManager</span><span>Blockcast</span><span>Physics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="system-card">
+        <div class="system-card-media">Clip · 10s</div>
+        <div class="system-card-content">
+          <div class="system-card-num">03 / Progression</div>
+          <h4>Auto-dropper economy</h4>
+          <p>From Throw Food at Brainrots. The platters level up on their own, so you keep progressing in the background while you're doing other stuff.</p>
+          <div class="system-card-tags">
+            <span>Datastores</span><span>RemoteEvents</span><span>Tycoon</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="system-card">
+        <div class="system-card-media">Clip · 10s</div>
+        <div class="system-card-content">
+          <div class="system-card-num">04 / Gameplay</div>
+          <h4>Predetermined reward wheel</h4>
+          <p>Crate-style spinning wheel. The server picks the outcome, the client animates the spin to land on it. Can't be cheated.</p>
+          <div class="system-card-tags">
+            <span>TweenService</span><span>RNG</span><span>UI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="section-label">Get in touch</div>
+    <h2>Let's <em>talk</em>.</h2>
+    <p style="color: var(--muted); max-width: 540px; margin: 0 auto; font-family: var(--display); font-style: italic; font-size: 19px;">
+      Looking for gameplay engineering roles. Contract or freelance is fine too.
+    </p>
+    <div class="contact-links">
+      <a href="https://create.roblox.com/talent/creators/186047409" target="_blank" rel="noopener">Talent Hub →</a>
+      <a href="mailto:polyydev@gmail.com">Email →</a>
+      <a href="https://www.roblox.com/users/186047409/profile" target="_blank" rel="noopener">Roblox →</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>© 2026 Oliver Polaschek</div>
+  <div>Built in New Zealand</div>
+</footer>
+
+</body>
+</html>
