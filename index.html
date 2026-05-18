@@ -394,83 +394,56 @@ section.s {
   color: var(--accent);
 }
 
-/* Systems showcase grid */
-.systems-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-}
-
-.system-card {
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,0.012);
-  transition: all 0.4s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.system-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 0; height: 1px;
-  background: var(--accent);
-  transition: width 0.6s ease;
-}
-
-.system-card:hover {
-  border-color: var(--line-bright);
-  background: rgba(255,255,255,0.02);
-}
-
-.system-card:hover::after { width: 100%; }
-
-.system-card-media {
-  aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, #1a1816 0%, #0f0e0c 100%);
-  border-bottom: 1px solid var(--line);
-  position: relative;
+/* Systems showcase — horizontal entries with clip rows */
+.systems-list-wrap {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  flex-direction: column;
 }
 
-.system-card-content {
-  padding: 32px;
+.system-entry {
+  padding: 56px 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 64px;
+  align-items: start;
 }
 
-.system-card-num {
+.system-entry:first-child { border-top: none; padding-top: 0; }
+.system-entry:last-child { padding-bottom: 0; }
+
+.system-info {
+  position: sticky;
+  top: 100px;
+}
+
+.system-num {
   font-family: var(--mono);
   font-size: 10px;
   color: var(--accent);
   letter-spacing: 0.2em;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   text-transform: uppercase;
 }
 
-.system-card h4 {
+.system-info h4 {
   font-family: var(--display);
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 400;
-  letter-spacing: -0.015em;
-  margin-bottom: 14px;
+  letter-spacing: -0.018em;
+  margin-bottom: 16px;
   font-variation-settings: 'opsz' 144;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-.system-card p {
+.system-info p {
   font-size: 15px;
   color: var(--muted);
-  margin-bottom: 24px;
   line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-.system-card-tags {
+.system-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -480,10 +453,63 @@ section.s {
   text-transform: uppercase;
 }
 
-.system-card-tags span {
+.system-tags span {
   padding: 5px 10px;
   border: 1px solid var(--line);
   color: var(--muted);
+}
+
+.system-clips {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.system-clips.three { grid-template-columns: repeat(3, 1fr); }
+.system-clips.one { grid-template-columns: 1fr; }
+
+.system-clip {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #1a1816 0%, #0f0e0c 100%);
+  border: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: border-color 0.3s;
+}
+
+.system-clip:hover { border-color: var(--line-bright); }
+
+.system-clip iframe,
+.system-clip video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+.system-clip-label {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(232, 227, 216, 0.6);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 2;
+  background: rgba(12, 11, 10, 0.7);
+  padding: 3px 6px;
+  pointer-events: none;
 }
 
 /* Code samples */
@@ -628,6 +654,9 @@ footer {
   .featured.reverse .featured-media { order: 1; }
   .featured.reverse .featured-content { order: 2; }
   .systems-grid, .code-list { grid-template-columns: 1fr; }
+  .system-entry { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
+  .system-info { position: static; }
+  .system-clips, .system-clips.three { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .scroll-indicator { left: 24px; bottom: 32px; }
   footer { flex-direction: column; gap: 12px; padding: 32px 24px; }
   .contact-links { gap: 24px; }
@@ -641,6 +670,7 @@ footer {
   <nav>
     <a href="#building">Building</a>
     <a href="#shipped">Shipped</a>
+    <a href="#fps">FPS System</a>
     <a href="#systems">Systems</a>
     <a href="#contact">Contact</a>
   </nav>
@@ -681,7 +711,7 @@ footer {
           <span>100M+ Visits</span>
         </div>
         <h3>Driving RP. Name pending disclosure.</h3>
-        <p>I'm working as a gameplay engineer on a driving RP that's done 100M+ visits. Can't say the name in public yet but happy to talk about it.</p>
+        <p>I'm programming a weapon system on a driving RP that's done 100M+ visits. Can't say the name in public yet but happy to talk about it.</p>
         <p>Built the weapon system from scratch. It works in first and third person off the same rig instead of needing a separate viewmodel. I went with IKControl over regular animations because the game supports a bunch of different character styles, and animations don't apply the same way to all of them.</p>
         <p>There's also a drive-by mechanic. Players can sit out the window of a moving car and shoot. Same IK setup drives the aim.</p>
         <ul class="systems-list">
@@ -707,7 +737,7 @@ footer {
         <p>You level up platters to get RNG food, then throw the food at a brainrot to level it up. Once you've got auto droppers and cannons going, the late game basically runs itself.</p>
         <p>First join looks great but the retention numbers showed the progression wasn't holding people. We're rebuilding it now to fix that.</p>
         <ul class="systems-list">
-          <li>Worked with a small team. I handled gameplay and systems</li>
+          <li>Worked with a small team. I handled all programming</li>
           <li>Simulator and tycoon loops layered together</li>
           <li>Currently rebuilding for v2</li>
         </ul>
@@ -723,71 +753,157 @@ footer {
     </div>
   </section>
 
+  <section class="s" id="fps">
+    <div class="section-label">Client Work · Available for Licensing</div>
+    <h2 class="section-title">Dedicated first-person<br>weapon <em>system</em>.</h2>
+
+    <div class="featured">
+      <div class="featured-media">
+        <iframe src="https://www.youtube.com/embed/Ai6RKf4_WZY"
+                title="FPS Framework demo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+      </div>
+      <div class="featured-content">
+        <div class="featured-meta">
+          <span><span class="status-dot"></span> Game-ready</span>
+          <span>Available for licensing</span>
+        </div>
+        <h3>FPS Framework 2026.</h3>
+        <p>A full first-person weapon system I built for a client. Game-ready out of the box. You bring your own models and animations, it handles the rest.</p>
+        <p>Covers all the weapon types you'd want: automatic rifles, pistols, rocket launchers, grenades, and melee. Sliding mechanic, procedural animations on the weapons themselves, and a bunch of anti-exploit work.</p>
+        <p>Built on top of Roblox's server-authoritative character, which isn't even fully released yet. The server has the real say on where the character is and what they're doing, so a lot of the common exploits just don't work.</p>
+        <ul class="systems-list">
+          <li>Every weapon type covered: full-auto, pistol, launcher, grenade, melee</li>
+          <li>Server-authoritative character + anti-exploit</li>
+          <li>Sliding, procedural weapon animations</li>
+          <li>Try it: <a href="https://www.roblox.com/games/110718613411910/FPS-Framework-2026" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);">FPS Framework 2026 on Roblox</a></li>
+          <li>Available for licensing.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section class="s" id="systems">
     <div class="section-label">Systems Showcase</div>
-    <h2 class="section-title">Other systems<br>I've <em>built</em>.</h2>
+    <h2 class="section-title">Other things<br>I've <em>built</em>.</h2>
 
-    <div class="systems-grid">
-      <div class="system-card">
-        <div class="system-card-media">Clip · 10s</div>
-        <div class="system-card-content">
-          <div class="system-card-num">01 / Animation</div>
-          <h4>R6 waist rotation</h4>
-          <p>Lets the upper body aim independently of where the legs are facing. Works on top of running animations without breaking them.</p>
-          <div class="system-card-tags">
-            <span>CFrame</span><span>R6</span><span>Animation</span>
+    <div class="systems-list-wrap">
+
+      <div class="system-entry">
+        <div class="system-info">
+          <div class="system-num">01 / Combat</div>
+          <h4>Hunting rifle and minigame</h4>
+          <p>Hunting rifle and minigame I was commissioned for. Third-person waist tilting was a challenge to get smooth on an R6 character. My approach was to create a clone on each client that could rotate freely while the actual one was hidden from sight.</p>
+          <div class="system-tags">
+            <span>R6</span><span>CFrame</span><span>Animation</span>
+          </div>
+        </div>
+        <div class="system-clips one">
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/_yJ6h4Fg0fc"
+                    title="Hunting rifle and minigame demo"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
           </div>
         </div>
       </div>
 
-      <div class="system-card">
-        <div class="system-card-media">Clip · 10s</div>
-        <div class="system-card-content">
-          <div class="system-card-num">02 / Physics</div>
-          <h4>Character controller</h4>
-          <p>Built on ControllerManager. I handled the edge cases the default doesn't deal with properly: corners, slopes, moving platforms.</p>
-          <div class="system-card-tags">
-            <span>ControllerManager</span><span>Blockcast</span><span>Physics</span>
+      <div class="system-entry">
+        <div class="system-info">
+          <div class="system-num">02 / Combat</div>
+          <h4>FPS projects</h4>
+          <p>Some of my FPS work outside the framework.</p>
+        </div>
+        <div class="system-clips">
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/9VjTCwGloJ4"
+                    title="FPS project 1"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/9Ble5wvC99k"
+                    title="FPS project 2"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
           </div>
         </div>
       </div>
 
-      <div class="system-card">
-        <div class="system-card-media">Clip · 10s</div>
-        <div class="system-card-content">
-          <div class="system-card-num">03 / Progression</div>
-          <h4>Auto-dropper economy</h4>
-          <p>From Throw Food at Brainrots. The platters level up on their own, so you keep progressing in the background while you're doing other stuff.</p>
-          <div class="system-card-tags">
-            <span>Datastores</span><span>RemoteEvents</span><span>Tycoon</span>
+      <div class="system-entry">
+        <div class="system-info">
+          <div class="system-num">03 / Gameplay</div>
+          <h4>Little Army</h4>
+          <p>An old group project I did programming on but the project fell through before completion</p>
+        </div>
+        <div class="system-clips three">
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/DEoet9GYvVk"
+                    title="Little Army 1"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/tLMyn_-F9dw"
+                    title="Little Army 2"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/z_xvlsPLmI0"
+                    title="Little Army 3"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
           </div>
         </div>
       </div>
 
-      <div class="system-card">
-        <div class="system-card-media">Clip · 10s</div>
-        <div class="system-card-content">
-          <div class="system-card-num">04 / Gameplay</div>
-          <h4>Predetermined reward wheel</h4>
-          <p>Crate-style spinning wheel. The server picks the outcome, the client animates the spin to land on it. Can't be cheated.</p>
-          <div class="system-card-tags">
-            <span>TweenService</span><span>RNG</span><span>UI</span>
+      <div class="system-entry">
+        <div class="system-info">
+          <div class="system-num">04 / UI</div>
+          <h4>Disc Tag</h4>
+          <p>Frontend work for a round based combat game I was creating.</p>
+        </div>
+        <div class="system-clips">
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/KQa903CMXWM"
+                    title="Disc Tag UI 1"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+          <div class="system-clip">
+            <iframe src="https://www.youtube.com/embed/jHiXDfuEb0E"
+                    title="Disc Tag UI 2"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
   <section class="contact" id="contact">
     <div class="section-label">Get in touch</div>
     <h2>Let's <em>talk</em>.</h2>
-    <p style="color: var(--muted); max-width: 540px; margin: 0 auto; font-family: var(--display); font-style: italic; font-size: 19px;">
-      Looking for gameplay engineering roles. Contract or freelance is fine too.
-    </p>
+
     <div class="contact-links">
       <a href="https://create.roblox.com/talent/creators/186047409" target="_blank" rel="noopener">Talent Hub →</a>
       <a href="mailto:polyydev@gmail.com">Email →</a>
       <a href="https://www.roblox.com/users/186047409/profile" target="_blank" rel="noopener">Roblox →</a>
+      <a href="https://discordapp.com/users/239119266614345729" target="_blank" rel="noopener">Discord →</a>
+      
     </div>
   </section>
 </main>
