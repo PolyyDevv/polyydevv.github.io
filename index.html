@@ -4,50 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PolyyDev</title>
-<meta name="description" content="Roblox games and systems by PolyyDev.">
+<meta name="description" content="Roblox developer. 10 years of Luau. Released games, weapon systems, procedural animation and IK.">
 <style>
-:root {
-  --bg: #111;
-  --text: #eee;
-  --muted: #999;
-  --line: #2a2a2a;
-  --link: #8ab4ff;
-}
+:root { --bg: #111; --card: #181818; --text: #eee; --muted: #9a9a9a; --line: #2a2a2a; --link: #8ab4ff; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-}
-.wrap { max-width: 960px; margin: 0 auto; padding: 48px 20px 80px; }
-a { color: var(--link); }
-header { margin-bottom: 56px; }
-header h1 { font-size: 28px; font-weight: 600; }
-header p { color: var(--muted); margin: 4px 0 12px; }
-.links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-h2 {
-  font-size: 13px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.08em; color: var(--muted);
-  border-bottom: 1px solid var(--line); padding-bottom: 8px; margin: 56px 0 24px;
-}
-.game { margin-bottom: 40px; }
-.game h3 { font-size: 20px; font-weight: 600; }
-.stats { color: var(--muted); font-size: 14px; margin: 2px 0 10px; }
-.game p { margin-bottom: 8px; }
-.media {
-  position: relative; aspect-ratio: 16 / 9; background: #000;
-  border: 1px solid var(--line); margin: 12px 0;
-}
-.media iframe, .media img {
-  position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover;
-}
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.grid .media { margin: 0; }
-.clip h3 { font-size: 17px; font-weight: 600; }
-.clip p { color: var(--muted); font-size: 14px; margin: 2px 0 10px; }
-.clip { margin-bottom: 32px; }
-footer { color: var(--muted); font-size: 13px; margin-top: 64px; }
-@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+body { background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 20px 56px; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header { margin-bottom: 36px; }
+header h1 { font-size: 32px; font-weight: 700; }
+.pitch { font-size: 19px; margin: 6px 0 10px; max-width: 760px; }
+.facts { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+.links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-weight: 500; }
+
+h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 36px 0 12px; }
+
+.grid { display: grid; gap: 14px; }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.card { background: var(--card); border: 1px solid var(--line); }
+.media { position: relative; aspect-ratio: 16 / 9; background: #000; display: block; }
+.media img, .media iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+.body { padding: 10px 12px 12px; }
+.body h3 { font-size: 16px; font-weight: 600; }
+.body p { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
+@media (max-width: 760px) { .g3, .g2 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -55,7 +40,8 @@ footer { color: var(--muted); font-size: 13px; margin-top: 64px; }
 
 <header>
   <h1>PolyyDev</h1>
-  <p>Roblox developer, New Zealand. Open to work.</p>
+  <p class="pitch">Roblox developer. I build full games and the hard systems inside them: weapon systems, procedural animation, IK, custom physics and movement.</p>
+  <p class="facts">10 years of Luau · New Zealand · Open to work</p>
   <div class="links">
     <a href="https://create.roblox.com/talent/creators/186047409" target="_blank" rel="noopener">Talent Hub</a>
     <a href="https://www.roblox.com/users/186047409/profile" target="_blank" rel="noopener">Roblox</a>
@@ -65,82 +51,66 @@ footer { color: var(--muted); font-size: 13px; margin-top: 64px; }
 </header>
 
 <h2>Released games</h2>
-
-<div class="game">
-  <h3><a href="https://www.roblox.com/games/97291023648204/Bounce-On-Fish" target="_blank" rel="noopener">Bounce On Fish</a></h3>
-  <div class="stats">Bounce, Bounce, Bounce!</div>
-  <a class="media" href="https://www.roblox.com/games/97291023648204/Bounce-On-Fish" target="_blank" rel="noopener" style="display:block"><img src="https://tr.rbxcdn.com/180DAY-06f2175d48f06088fe0b2a4a053db1e0/500/280/Image/Jpeg/noFilter" alt="Bounce On Fish"></a>
-  <p>Launch from a cannon and bounce off fish to keep going. Earn cash, upgrade the cannon, go higher, and find rare fish along the way.</p>
-</div>
-
-<div class="game">
-  <h3><a href="https://www.roblox.com/games/134791939795583/Dig-The-Trench" target="_blank" rel="noopener">Dig The Trench</a></h3>
-  <div class="stats">In Da Trenches</div>
-  <a class="media" href="https://www.roblox.com/games/134791939795583/Dig-The-Trench" target="_blank" rel="noopener" style="display:block"><img src="https://tr.rbxcdn.com/180DAY-6520d5b090584a32fd0c86a41513b120/500/280/Image/Jpeg/noFilter" alt="Dig The Trench"></a>
-  <p>Dig up guns, turrets and planes from an old battlefield. Sell finds for upgrades, buy radiation protection to dig deeper, and use bombs to dig faster. Deeper means rarer loot.</p>
-</div>
-
-<div class="game">
-  <h3><a href="https://www.roblox.com/games/117286744383846" target="_blank" rel="noopener">Sea Tag!</a></h3>
-  <div class="stats">up ! games</div>
-  <a class="media" href="https://www.roblox.com/games/117286744383846" target="_blank" rel="noopener" style="display:block"><img src="https://tr.rbxcdn.com/180DAY-3e633a97bd875fb2c44de0e78d39ff9c/500/280/Image/Jpeg/noFilter" alt="Sea Tag!"></a>
-  <p>Classic tag on boats. Chase, dodge and pass the tag through explosions, and earn cash to unlock faster boats.</p>
-</div>
-
-<h2>Other work</h2>
-
-<div class="game">
-  <h3>Weapon system for a driving RP (100M+ visits)</h3>
-  <div class="stats">Contract · name under NDA</div>
-  <div class="media"><iframe src="https://www.youtube.com/embed/4BS2YKmC8jQ" title="Driving RP weapon system" allowfullscreen></iframe></div>
-  <p>Weapon system that works in first and third person off the same rig. Uses IKControl instead of animations so aiming works across different character styles. Includes a drive-by mechanic where players lean out of moving cars and shoot.</p>
-</div>
-
-<div class="game">
-  <h3><a href="https://www.roblox.com/games/110718613411910/FPS-Framework-2026" target="_blank" rel="noopener">FPS Framework 2026</a></h3>
-  <div class="stats">Client work · available for licensing</div>
-  <div class="media"><iframe src="https://www.youtube.com/embed/Ai6RKf4_WZY" title="FPS Framework 2026" allowfullscreen></iframe></div>
-  <p>Game-ready first-person weapon system. Full-auto, pistols, launchers, grenades and melee, plus sliding and procedural weapon animation. Built on Roblox's server-authoritative character, so common movement exploits don't work.</p>
-</div>
-
-<div class="game">
-  <h3>Throw Food at Brainrots</h3>
-  <div class="stats">Small team · all programming</div>
-  <div class="media"><iframe src="https://www.youtube.com/embed/wZrRd0mCls0" title="Throw Food at Brainrots" allowfullscreen></iframe></div>
-  <p>Simulator-tycoon hybrid. Level platters to roll food, throw it at a brainrot to level it up, automate with droppers and cannons.</p>
-</div>
-
-<div class="clip">
-  <h3>Hunting rifle and minigame</h3>
-  <p>Commission. Smooth third-person waist tilt on R6 using a client-side clone.</p>
-  <div class="media"><iframe src="https://www.youtube.com/embed/_yJ6h4Fg0fc" title="Hunting rifle" allowfullscreen></iframe></div>
-</div>
-
-<div class="clip">
-  <h3>FPS projects</h3>
-  <p>Other first-person work.</p>
-  <div class="grid">
-    <div class="media"><iframe src="https://www.youtube.com/embed/9VjTCwGloJ4" title="FPS project 1" allowfullscreen></iframe></div>
-    <div class="media"><iframe src="https://www.youtube.com/embed/9Ble5wvC99k" title="FPS project 2" allowfullscreen></iframe></div>
+<div class="grid g3">
+  <div class="card">
+    <a class="media" href="https://www.roblox.com/games/97291023648204/Bounce-On-Fish" target="_blank" rel="noopener"><img src="https://tr.rbxcdn.com/180DAY-06f2175d48f06088fe0b2a4a053db1e0/500/280/Image/Jpeg/noFilter" alt="Bounce On Fish"></a>
+    <div class="body">
+      <h3><a href="https://www.roblox.com/games/97291023648204/Bounce-On-Fish" target="_blank" rel="noopener">Bounce On Fish</a></h3>
+      <p>Cannon launcher. Bounce off fish, upgrade, go higher.</p>
+    </div>
+  </div>
+  <div class="card">
+    <a class="media" href="https://www.roblox.com/games/134791939795583/Dig-The-Trench" target="_blank" rel="noopener"><img src="https://tr.rbxcdn.com/180DAY-6520d5b090584a32fd0c86a41513b120/500/280/Image/Jpeg/noFilter" alt="Dig The Trench"></a>
+    <div class="body">
+      <h3><a href="https://www.roblox.com/games/134791939795583/Dig-The-Trench" target="_blank" rel="noopener">Dig The Trench</a></h3>
+      <p>Dig up war loot from an old battlefield. Deeper is rarer.</p>
+    </div>
+  </div>
+  <div class="card">
+    <a class="media" href="https://www.roblox.com/games/117286744383846" target="_blank" rel="noopener"><img src="https://tr.rbxcdn.com/180DAY-3e633a97bd875fb2c44de0e78d39ff9c/500/280/Image/Jpeg/noFilter" alt="Sea Tag!"></a>
+    <div class="body">
+      <h3><a href="https://www.roblox.com/games/117286744383846" target="_blank" rel="noopener">Sea Tag!</a></h3>
+      <p>Classic tag on boats, with explosions and boat upgrades.</p>
+    </div>
   </div>
 </div>
 
-<div class="clip">
-  <h3>Little Army</h3>
-  <p>Programming on a group project that didn't make it to release.</p>
-  <div class="grid">
-    <div class="media"><iframe src="https://www.youtube.com/embed/DEoet9GYvVk" title="Little Army 1" allowfullscreen></iframe></div>
-    <div class="media"><iframe src="https://www.youtube.com/embed/tLMyn_-F9dw" title="Little Army 2" allowfullscreen></iframe></div>
-    <div class="media"><iframe src="https://www.youtube.com/embed/z_xvlsPLmI0" title="Little Army 3" allowfullscreen></iframe></div>
+<h2>Systems</h2>
+<div class="grid g2">
+  <div class="card">
+    <div class="media"><iframe loading="lazy" src="https://www.youtube.com/embed/4BS2YKmC8jQ" title="IK weapon system" allowfullscreen></iframe></div>
+    <div class="body">
+      <h3>IK weapon system with drive-bys</h3>
+      <p>First and third person off one rig. IKControl aiming that works on any character style, including shooting from moving cars.</p>
+    </div>
   </div>
-</div>
-
-<div class="clip">
-  <h3>Disc Tag UI</h3>
-  <p>Frontend for a round-based combat game.</p>
-  <div class="grid">
-    <div class="media"><iframe src="https://www.youtube.com/embed/KQa903CMXWM" title="Disc Tag UI 1" allowfullscreen></iframe></div>
-    <div class="media"><iframe src="https://www.youtube.com/embed/jHiXDfuEb0E" title="Disc Tag UI 2" allowfullscreen></iframe></div>
+  <div class="card">
+    <div class="media"><iframe loading="lazy" src="https://www.youtube.com/embed/Ai6RKf4_WZY" title="FPS Framework 2026" allowfullscreen></iframe></div>
+    <div class="body">
+      <h3><a href="https://www.roblox.com/games/110718613411910/FPS-Framework-2026" target="_blank" rel="noopener">FPS Framework 2026</a></h3>
+      <p>Client work. Every weapon type, sliding, procedural weapon animation. Server-authoritative character blocks common exploits. Available for licensing.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="media"><iframe loading="lazy" src="https://www.youtube.com/embed/wZrRd0mCls0" title="Throw Food at Brainrots" allowfullscreen></iframe></div>
+    <div class="body">
+      <h3>Throw Food at Brainrots</h3>
+      <p>Simulator-tycoon hybrid. All programming on a small team.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="media"><iframe loading="lazy" src="https://www.youtube.com/embed/9VjTCwGloJ4" title="FPS project" allowfullscreen></iframe></div>
+    <div class="body">
+      <h3>FPS projects</h3>
+      <p>First-person work outside the framework. <a href="https://www.youtube.com/watch?v=9Ble5wvC99k" target="_blank" rel="noopener">Second clip</a>.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="media"><iframe loading="lazy" src="https://www.youtube.com/embed/DEoet9GYvVk" title="Little Army" allowfullscreen></iframe></div>
+    <div class="body">
+      <h3>Little Army</h3>
+      <p>Programming on a group project. <a href="https://www.youtube.com/watch?v=tLMyn_-F9dw" target="_blank" rel="noopener">More</a> · <a href="https://www.youtube.com/watch?v=z_xvlsPLmI0" target="_blank" rel="noopener">More</a></p>
+    </div>
   </div>
 </div>
 
