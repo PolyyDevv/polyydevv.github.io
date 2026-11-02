@@ -36,6 +36,9 @@ h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacin
 }
 .media[data-yt]:not([data-yt=""]):hover::after { background-color: rgba(0,0,0,.85); }
 .media.playing::after { display: none; }
+.clips { display: flex; gap: 6px; margin-top: 8px; }
+.clips button { font: inherit; font-size: 12px; color: var(--muted); background: none; border: 1px solid var(--line); padding: 2px 8px; cursor: pointer; }
+.clips button:hover, .clips button.on { color: var(--text); border-color: var(--muted); }
 .body { padding: 10px 12px 12px; }
 .body h3 { font-size: 16px; font-weight: 600; }
 .body p { color: var(--muted); font-size: 14px; margin-top: 2px; }
@@ -68,7 +71,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
     </div>
   </div>
   <div class="card">
-    <div class="media" data-yt=""><img src="https://tr.rbxcdn.com/180DAY-6520d5b090584a32fd0c86a41513b120/500/280/Image/Jpeg/noFilter" alt="Dig The Trench"></div>
+    <div class="media" data-yt="jankOKudddM"><img src="https://tr.rbxcdn.com/180DAY-6520d5b090584a32fd0c86a41513b120/500/280/Image/Jpeg/noFilter" alt="Dig The Trench"></div>
     <div class="body">
       <h3><a href="https://www.roblox.com/games/134791939795583/Dig-The-Trench" target="_blank" rel="noopener">Dig The Trench</a></h3>
       <p>Dig up war loot from an old battlefield. Deeper is rarer.</p>
@@ -127,13 +130,27 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
 </div>
 <script>
 document.querySelectorAll('.media[data-yt]').forEach(function (m) {
-  var id = m.getAttribute('data-yt');
-  if (!id) return;
-  m.addEventListener('click', function () {
-    if (m.classList.contains('playing')) return;
+  var ids = m.getAttribute('data-yt').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+  if (!ids.length) return;
+  var btns = [];
+  function play(i) {
     m.classList.add('playing');
-    m.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
-  });
+    m.innerHTML = '<iframe src="https://www.youtube.com/embed/' + ids[i] + '?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
+    btns.forEach(function (b, j) { b.classList.toggle('on', i === j); });
+  }
+  m.addEventListener('click', function () { if (!m.classList.contains('playing')) play(0); });
+  if (ids.length > 1) {
+    var row = document.createElement('div');
+    row.className = 'clips';
+    ids.forEach(function (id, i) {
+      var b = document.createElement('button');
+      b.textContent = 'Video ' + (i + 1);
+      b.addEventListener('click', function () { play(i); });
+      btns.push(b);
+      row.appendChild(b);
+    });
+    m.parentNode.querySelector('.body').appendChild(row);
+  }
 });
 </script>
 </body>
