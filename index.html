@@ -29,6 +29,13 @@ h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacin
 .card { background: var(--card); border: 1px solid var(--line); }
 .media { position: relative; aspect-ratio: 16 / 9; background: #000; display: block; }
 .media img, .media iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+.media[data-yt]:not([data-yt=""]) { cursor: pointer; }
+.media[data-yt]:not([data-yt=""])::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px;
+  border-radius: 50%; background: rgba(0,0,0,.65) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='white'/%3E%3C/svg%3E") center/26px no-repeat;
+}
+.media[data-yt]:not([data-yt=""]):hover::after { background-color: rgba(0,0,0,.85); }
+.media.playing::after { display: none; }
 .body { padding: 10px 12px 12px; }
 .body h3 { font-size: 16px; font-weight: 600; }
 .body p { color: var(--muted); font-size: 14px; margin-top: 2px; }
@@ -55,28 +62,28 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
 <h2>Released games</h2>
 <div class="grid g4">
   <div class="card">
-    <a class="media" href="https://www.roblox.com/games/97291023648204/Bounce-On-Fish" target="_blank" rel="noopener"><img src="https://tr.rbxcdn.com/180DAY-06f2175d48f06088fe0b2a4a053db1e0/500/280/Image/Jpeg/noFilter" alt="Bounce On Fish"></a>
+    <div class="media" data-yt=""><img src="https://tr.rbxcdn.com/180DAY-06f2175d48f06088fe0b2a4a053db1e0/500/280/Image/Jpeg/noFilter" alt="Bounce On Fish"></div>
     <div class="body">
       <h3><a href="https://www.roblox.com/games/97291023648204/Bounce-On-Fish" target="_blank" rel="noopener">Bounce On Fish</a></h3>
       <p>Cannon launcher. Bounce off fish, upgrade, go higher.</p>
     </div>
   </div>
   <div class="card">
-    <a class="media" href="https://www.roblox.com/games/134791939795583/Dig-The-Trench" target="_blank" rel="noopener"><img src="https://tr.rbxcdn.com/180DAY-6520d5b090584a32fd0c86a41513b120/500/280/Image/Jpeg/noFilter" alt="Dig The Trench"></a>
+    <div class="media" data-yt=""><img src="https://tr.rbxcdn.com/180DAY-6520d5b090584a32fd0c86a41513b120/500/280/Image/Jpeg/noFilter" alt="Dig The Trench"></div>
     <div class="body">
       <h3><a href="https://www.roblox.com/games/134791939795583/Dig-The-Trench" target="_blank" rel="noopener">Dig The Trench</a></h3>
       <p>Dig up war loot from an old battlefield. Deeper is rarer.</p>
     </div>
   </div>
   <div class="card">
-    <a class="media" href="https://www.roblox.com/games/117286744383846" target="_blank" rel="noopener"><img src="https://tr.rbxcdn.com/180DAY-3e633a97bd875fb2c44de0e78d39ff9c/500/280/Image/Jpeg/noFilter" alt="Sea Tag!"></a>
+    <div class="media" data-yt=""><img src="https://tr.rbxcdn.com/180DAY-3e633a97bd875fb2c44de0e78d39ff9c/500/280/Image/Jpeg/noFilter" alt="Sea Tag!"></div>
     <div class="body">
       <h3><a href="https://www.roblox.com/games/117286744383846" target="_blank" rel="noopener">Sea Tag!</a></h3>
       <p>Classic tag on boats, with explosions and boat upgrades.</p>
     </div>
   </div>
   <div class="card">
-    <div class="media"><iframe loading="lazy" src="https://www.youtube.com/embed/wZrRd0mCls0" title="Throw Food at Brainrots" allowfullscreen></iframe></div>
+    <div class="media play" data-yt="wZrRd0mCls0"><img src="https://i.ytimg.com/vi/wZrRd0mCls0/hqdefault.jpg" alt="Throw Food at Brainrots"></div>
     <div class="body">
       <h3>Throw Food at Brainrots</h3>
       <p>Simulator-tycoon hybrid. Roll food, throw it at brainrots, automate.</p>
@@ -119,5 +126,16 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
 <footer>© 2026 PolyyDev</footer>
 
 </div>
+<script>
+document.querySelectorAll('.media[data-yt]').forEach(function (m) {
+  var id = m.getAttribute('data-yt');
+  if (!id) return;
+  m.addEventListener('click', function () {
+    if (m.classList.contains('playing')) return;
+    m.classList.add('playing');
+    m.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
+  });
+});
+</script>
 </body>
 </html>
